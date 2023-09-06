@@ -5,7 +5,7 @@
 
 	<groupId>com.mulesoft.services</groupId>
 	<artifactId>mule-validation-sonarqube-plugin</artifactId>
-	<version>1.0.6</version>
+	<version>1.0.6-C1</version>
 	<packaging>sonar-plugin</packaging>
 
 	<url>http://maven.apache.org</url>
