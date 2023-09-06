@@ -42,9 +42,11 @@ public class FileStrategyScope implements ScopeStrategy {
 			Element rootElement = document.getRootElement();
 			boolean valid = xpathValidator.processXPath(rule.param(MuleRulesDefinition.PARAMS.XPATH).trim(),
 					rootElement, Boolean.class).booleanValue();
-			logger.info("Validation Result: " + valid + " : File: " + t.filename() + " :Rule:" + rule.ruleKey());
+			if(logger.isDebugEnabled()) {
+				logger.debug("Validation Result: " + valid + " : File: " + t.filename() + " :Rule:" + rule.ruleKey());
+			}
 			if (!valid) {
-				
+
 				XmlTextRange textRange;
 				try {
 					// see org.sonarsource.analyzer.commons.xml.checks.SonarXmlCheck.reportIssue(Node, String)
@@ -53,7 +55,9 @@ public class FileStrategyScope implements ScopeStrategy {
 					tempSonarXmlCheckHelper.scanFile(context, rule.ruleKey(), xmlFile); // just to fill the properties
 					String locationFindingXPath = rule.param(MuleRulesDefinition.PARAMS.XPATH_LOCATION_HINT).trim();
 					if (locationFindingXPath == null || locationFindingXPath.length()==0) {
-						logger.info("No locationFindingXPath:params="+rule.params());
+						if(logger.isDebugEnabled()) {
+							logger.debug("No locationFindingXPath:params="+rule.params());
+						}
 						textRange = null;
 					} else {
 						Node locationElement = (Node)XPathFactory.newInstance().newXPath().compile(locationFindingXPath).evaluate(xmlFile.getDocument().getFirstChild(),  XPathConstants.NODE);
@@ -62,7 +66,9 @@ public class FileStrategyScope implements ScopeStrategy {
 							logger.warn("Did not find node for "+locationFindingXPath);
 						} else {
 						    textRange = XmlFile.nodeLocation(locationElement);
-							logger.info("Found textRange="+textRange);
+							if(logger.isDebugEnabled()) {
+								logger.debug("Found textRange="+textRange);
+							}
 						}
 					}
 				} catch (RuntimeException | XPathExpressionException e) {
@@ -81,7 +87,7 @@ public class FileStrategyScope implements ScopeStrategy {
 							textRange.getEndLine(),
 							textRange.getEndColumn()));
 				}
-				
+
 				newIssue.at(primaryLocation);
 				addIssue(issues, rule, newIssue);
 			}

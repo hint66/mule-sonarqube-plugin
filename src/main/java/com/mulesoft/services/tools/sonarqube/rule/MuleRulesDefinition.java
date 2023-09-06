@@ -44,7 +44,9 @@ public class MuleRulesDefinition implements RulesDefinition {
 		if (logger.isDebugEnabled())
 			logger.debug("Defining MuleSoft Rule - Based on Mule-Validation-XPath-Core rules");
 
-		logger.info("Working Directory = {}", System.getProperty("user.dir"));
+		if(logger.isDebugEnabled()) {
+			logger.debug("Working Directory = {}", System.getProperty("user.dir"));
+		}
 
 		createRepository(context, MULE3_REPOSITORY_KEY, MuleLanguage.LANGUAGE_KEY, "Mule3 Analyzer", "/rules-3.xml");
 		createRepository(context, MULE4_REPOSITORY_KEY, MuleLanguage.LANGUAGE_KEY, "Mule4 Analyzer", "/rules-4.xml");
@@ -101,7 +103,9 @@ public class MuleRulesDefinition implements RulesDefinition {
 		x1Rule.createParam(PARAMS.SCOPE).setDescription(prop.getProperty("rule.template.parameter.scope"))
 				.setType(RuleParamType.STRING);
 
-		logger.info("addRuleTemplate x1Rule="+x1Rule);
+		if(logger.isDebugEnabled()) {
+			logger.debug("addRuleTemplate x1Rule="+x1Rule);
+		}
 
 	}
 
@@ -117,7 +121,9 @@ public class MuleRulesDefinition implements RulesDefinition {
 		x1Rule.addTags(language);
 		x1Rule.createParam(PARAMS.CATEGORY).setDefaultValue(ruleset.getCategory()).setType(RuleParamType.STRING);
 		x1Rule.createParam(PARAMS.XPATH).setDefaultValue(rule.getValue()).setType(RuleParamType.STRING);
-		logger.info("LocationHint="+rule.getLocationHint()+" for "+rule.getName());
+		if(logger.isDebugEnabled()) {
+			logger.debug("LocationHint="+rule.getLocationHint()+" for "+rule.getName());
+		}
 		x1Rule.createParam(PARAMS.XPATH_LOCATION_HINT).setDefaultValue(rule.getLocationHint()).setType(RuleParamType.STRING);
 		if (rule.getApplies() != null) {
 			x1Rule.createParam(PARAMS.SCOPE).setDefaultValue(rule.getApplies()).setType(RuleParamType.STRING);

@@ -19,7 +19,7 @@ import com.mulesoft.services.tools.validation.rules.Rulestore;
 
 /**
  * Iterates over all the mule files a evaluates all the rules
- * 
+ *
  * @author franco.parma
  *
  */
@@ -28,7 +28,9 @@ public class Validator {
 	Logger logger = LoggerFactory.getLogger(getClass());
 
 	public Validator(String language) {
-		logger.info("Language: {}", language);
+		if(logger.isDebugEnabled()) {
+			logger.debug("Language: {}", language);
+		}
 		String fileName = "app-" + language + ".properties";
 		try (InputStream in = getClass().getClassLoader().getResourceAsStream(fileName)) {
 			prop.load(in);
@@ -38,7 +40,9 @@ public class Validator {
 	}
 
 	public Validator(File properties) {
-		logger.info("Property File {}", properties);
+		if(logger.isDebugEnabled()) {
+			logger.debug("Property File {}", properties);
+		}
 		try (InputStream in = new FileInputStream(properties)) {
 			prop.load(in);
 		} catch (IOException e) {
